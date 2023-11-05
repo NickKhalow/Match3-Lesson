@@ -21,11 +21,11 @@ namespace Game.Views.BoardRenderers
             IReadOnlyResolveResult resolveResult,
             IDictionary<Guid, VisualPiece> visualPieces);
 
-        protected static async UniTask MoveMany(IReadOnlyList<(BoardPos, VisualPiece)> list)
+        protected static UniTask MoveMany(IReadOnlyList<(BoardPos, VisualPiece)> list)
         {
             if (list.Count == 0)
             {
-                return;
+                return UniTask.CompletedTask;
             }
 
             var sequence = DOTween.Sequence()!;
@@ -33,8 +33,10 @@ namespace Game.Views.BoardRenderers
             {
                 sequence.Insert(0, pair.Item2.MoveTo(pair.Item1));
             }
-            
-            ;
+
+            var done = false;
+            sequence.OnComplete(() => done = true);
+            return UniTask.WaitUntil(() => done);
         }
     }
 }

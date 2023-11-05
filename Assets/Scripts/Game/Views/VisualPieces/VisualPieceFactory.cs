@@ -17,7 +17,7 @@ namespace Game.Views.VisualPieces
         public VisualPiece VisualPiece(PiecePosition piecePosition)
         {
             var pieceObject = pool.Count > 0 ? pool.Pop() : Instantiate(visualPiecePrefab, transform, true);
-            pieceObject!.gameObject.SetActive(true);
+            pieceObject!.Show();
             var view = viewsFactory.NewView(piecePosition.Piece);
             pieceObject.ApplyView(view);
             pieceObject.PlaceAt(piecePosition.Pos.X, piecePosition.Pos.Y);
@@ -27,7 +27,7 @@ namespace Game.Views.VisualPieces
         public void Recycle(VisualPiece visualPiece)
         {
             pool.Push(visualPiece);
-            visualPiece.gameObject.SetActive(false);
+            visualPiece.Hide();
         }
     }
 }

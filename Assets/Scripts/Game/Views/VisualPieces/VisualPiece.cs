@@ -29,6 +29,17 @@ namespace Game.Views.VisualPieces
             currentView = view;
         }
 
+        public void Hide()
+        {
+            transform.DOKill();
+            gameObject.SetActive(false);
+        }
+
+        public void Show()
+        {
+            gameObject.SetActive(true);
+        }
+
         public void PlaceAt(float x, float y)
         {
             transform.localPosition = LogicPosToVisualPos(x, y);
